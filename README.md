@@ -1,6 +1,7 @@
 #HW2
 #####requirements
 - Cloudera QuickStart VMs CDH 5.12
+- Apache Ignite 2.3.0
 - 64-bit host OS and a virtualization product that can support a 64-bit guest OS
 - 8+ GiB RAM
 #####build
@@ -15,3 +16,5 @@
 `java -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -Djava.awt.headless=true -cp target/hw2-1.0-SNAPSHOT-jar-with-dependencies.jar ru.mephi.hw2.Main config.xml ~/spark`
 #####process on cluster
 `bin/spark-submit --class ru.mephi.hw2.Main --master local --deploy-mode client --executor-memory 1g target/hw2-1.0-SNAPSHOT-jar-with-dependencies.jar config.xml ~/spark`
+#####clear
+`java -cp target/hw2-1.0-SNAPSHOT-jar-with-dependencies.jar ru.mephi.hw2.ClearLogIgnite config.xml`

@@ -9,6 +9,10 @@ public class Server {
      */
     static final String CACHE_NAME = "LOG";
 
+    /**
+     * Start server node
+     * @param args
+     */
     public static void main(String[] args) {
         Ignition.start(args[0]);
     }

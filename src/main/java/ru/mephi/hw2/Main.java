@@ -19,12 +19,17 @@ import static org.apache.spark.sql.functions.sum;
 import static org.apache.spark.sql.functions.lit;
 import static org.apache.spark.sql.functions.format_number;
 
-
+/**
+ * Program which aggregate raw metrics into selected scale
+ * Ingest technology: bash
+ * Storage technology: Ignite Native Persistence
+ * Computation technology: Spark SQL (DataFrame, DataSet)
+ */
 public class Main {
 
     /**
      * Main method.
-     * @param args Command line arguments, none required.
+     * @param args Command line arguments, 0 - ignite config.xml path, 1 - output path.
      */
     public static void main(String args[]) {
         SparkConf sparkConf = new SparkConf()
@@ -55,10 +60,10 @@ public class Main {
     }
 
     static Dataset<Row> process(List<LogRecord> records, SQLContext sqlContext) {
-        System.out.println("Create Dataset by records");
+        // Create Dataset by records
         Dataset<LogRecord> dsRecords = sqlContext.createDataset(records, Encoders.bean(LogRecord.class));
 
-        System.out.println("Evaluate task");
+        // Evaluate task
         long SCALE = 20000L;
         Dataset<Row> ds = dsRecords.withColumn("scaledTime", round(col("timestamp").divide(SCALE)));
 

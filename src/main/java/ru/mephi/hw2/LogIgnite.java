@@ -27,9 +27,9 @@ import static ru.mephi.hw2.Server.CACHE_NAME;
 public class LogIgnite {
 
     /**
-     * Executes example.
+     * Ingest log to Ignite.
      *
-     * @param args Command line arguments, 0 - csv file path.
+     * @param args Command line arguments, 0 - ignite config.xml path, 1 - csv file path.
      * @throws IgniteException If example execution failed.
      */
     public static void main(String[] args) throws IgniteException {
