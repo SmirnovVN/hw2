@@ -2,8 +2,6 @@ package ru.mephi.hw2;
 
 import org.apache.ignite.Ignition;
 
-import java.util.Objects;
-
 public class Server {
 
     /**
@@ -11,7 +9,7 @@ public class Server {
      */
     static final String CACHE_NAME = "LOG";
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Ignition.start(args[0]);
     }
 }

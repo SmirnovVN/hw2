@@ -22,8 +22,6 @@ import static org.apache.spark.sql.functions.format_number;
 
 public class Main {
 
-    static long scale = 300000L;
-    static String SCALE = "20s";
     /**
      * Main method.
      * @param args Command line arguments, none required.
@@ -50,19 +48,26 @@ public class Main {
             records.add(entry.getValue());
         }
 
+        // Show the result of the execution.
+        process(records, sqlContext).coalesce(1).write().csv(args[1]);
+
+        System.exit(0);
+    }
+
+    static Dataset<Row> process(List<LogRecord> records, SQLContext sqlContext) {
         System.out.println("Create Dataset by records");
         Dataset<LogRecord> dsRecords = sqlContext.createDataset(records, Encoders.bean(LogRecord.class));
 
         System.out.println("Evaluate task");
-        Dataset<Row> ds = dsRecords.withColumn("scaledTime", round(col("timestamp").divide(scale)));
+        long SCALE = 20000L;
+        Dataset<Row> ds = dsRecords.withColumn("scaledTime", round(col("timestamp").divide(SCALE)));
 
+        String SCALE_STRING = "20s";
         ds = ds.groupBy(col("id"), col("scaledTime")).agg(sum("size").as("sumSize"))
-                .select(col("id"), lit(SCALE), format_number(col("scaledTime").$times(scale), 0), col("sumSize"));
+                .select(col("id"), lit(SCALE_STRING), format_number(col("scaledTime").$times(SCALE), 0), col("sumSize"));
 
-
-        // Show the result of the execution.
-        ds.coalesce(1).write().csv(args[1]);
-
-        System.exit(0);
+        return ds;
     }
+
+
 }
